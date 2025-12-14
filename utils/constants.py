@@ -20,6 +20,11 @@ CALDERA_API_KEY = os.getenv("CALDERA_API_KEY")
 OPENAI_MODEL_NAME = os.getenv("OPENAI_MODEL_NAME")
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
+# Ollama configuration
+OLLAMA_BASE_URL = os.getenv("OLLAMA_BASE_URL", "http://localhost:11434/v1")
+OLLAMA_MODEL_NAME = os.getenv("OLLAMA_MODEL_NAME", "llama3.1:8b")
+LLM_PROVIDER = os.getenv("LLM_PROVIDER", "ollama")  # "openai" or "ollama"
+
 # Optionally, convert string values to the appropriate type if needed (e.g., integers)
 WEB_SERVER_PORT = int(WEB_SERVER_PORT) if WEB_SERVER_PORT else 8800
 MAX_TOKENS = int(MAX_TOKENS) if MAX_TOKENS else None

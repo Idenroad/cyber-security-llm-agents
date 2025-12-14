@@ -22,18 +22,66 @@ Released as part of our talks at RSAC2024:
 > [!CAUTION]
 > Running LLM-generated source code and commands poses a security risk to your host environment! Be careful and only run this in a virtual or test environment.
 
-### Step 1 - Install  requirements
+### Step 1 - Install requirements
 
-```
-pip install -r requirements
+Create a virtual environment and install dependencies:
+
+```bash
+# Create virtual environment
+python3 -m venv .venv
+
+# Activate it
+source .venv/bin/activate  # For bash/zsh
+# or
+source .venv/bin/activate.fish  # For fish shell
+
+# Install dependencies
+pip install -r requirements.txt
 ```
 
-### Step 2 - Configure OpenAI API Information
+### Step 2 - Configure LLM Provider
 
-```
+```bash
 cp .env_template .env
 ```
-Then add your LLM API information and other parameters to the ``.env``.
+Then configure your LLM provider in the `.env` file.
+
+#### Option A: Using Ollama (Local Models - Recommended)
+
+Ollama allows you to run powerful LLMs locally on your machine without any API costs.
+
+1. **Install Ollama** from [https://ollama.ai](https://ollama.ai)
+
+2. **Setup your model** using the interactive script:
+   ```bash
+   ./setup_ollama_model.sh
+   ```
+   
+   The script offers two options:
+   - **Option 1**: Quick setup with llama3.1:8b (recommended)
+   - **Option 2**: Install a custom model from a GGUF file (e.g., specialized pentest models)
+
+3. **Configure** `.env` with the model name provided by the setup script:
+   ```bash
+   LLM_PROVIDER = "ollama"
+   OLLAMA_BASE_URL = "http://localhost:11434/v1"
+   OLLAMA_MODEL_NAME = "llama3.1:8b"  # or your custom model name
+   ```
+
+4. **Test your model**:
+   ```bash
+   ollama run llama3.1:8b
+   ```
+
+#### Option B: Using OpenAI
+
+1. Get your API key from [https://platform.openai.com](https://platform.openai.com)
+2. Configure `.env`:
+   ```bash
+   LLM_PROVIDER = "openai"
+   OPENAI_MODEL_NAME = "gpt-3.5-turbo-0125"
+   OPENAI_API_KEY = "<your-api-key>"
+   ```
 
 
 ### Step 3 - Start HTTP and FTP server (Optional)

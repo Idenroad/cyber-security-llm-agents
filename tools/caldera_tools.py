@@ -5,10 +5,23 @@ import json
 import utils.constants
 from time import sleep
 import base64
-from autogen.agentchat.contrib.capabilities.context_handling import (
-    truncate_str_to_tokens,
-)
 import requests
+
+
+# Helper function to truncate strings to a maximum number of tokens
+def truncate_str_to_tokens(text: str, max_tokens: int, model: str = "gpt-3.5-turbo") -> str:
+    """Truncate a string to a maximum number of tokens."""
+    try:
+        encoding = tiktoken.encoding_for_model(model)
+    except KeyError:
+        encoding = tiktoken.get_encoding("cl100k_base")
+    
+    tokens = encoding.encode(text)
+    if len(tokens) <= max_tokens:
+        return text
+    
+    truncated_tokens = tokens[:max_tokens]
+    return encoding.decode(truncated_tokens)
 
 
 CALDERA_WORKING_FOLDER = utils.constants.LLM_WORKING_FOLDER + "/caldera"

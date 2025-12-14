@@ -5,11 +5,21 @@ import os
 # Get path to the script folder
 script_folder = os.path.dirname(os.path.abspath(__file__))
 working_folder = os.path.join(script_folder, "../" + utils.constants.LLM_WORKING_FOLDER)
-llm_config = {
-    "model": utils.constants.OPENAI_MODEL_NAME,
-    "api_key": utils.constants.OPENAI_API_KEY,
-    "cache_seed": None,
-}
+
+# Configure LLM based on provider
+if utils.constants.LLM_PROVIDER == "ollama":
+    llm_config = {
+        "model": utils.constants.OLLAMA_MODEL_NAME,
+        "api_key": "ollama",  # Ollama doesn't need a real API key
+        "base_url": utils.constants.OLLAMA_BASE_URL,
+        "cache_seed": None,
+    }
+else:
+    llm_config = {
+        "model": utils.constants.OPENAI_MODEL_NAME,
+        "api_key": utils.constants.OPENAI_API_KEY,
+        "cache_seed": None,
+    }
 
 
 def clean_working_directory(agent_subfolder: str):
